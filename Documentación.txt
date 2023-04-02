@@ -1,0 +1,426 @@
+
+Curso de NPM: Gestión de Paquetes y Dependencias en JavaScript (Platzi) (01-04-2023)
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Iniciamos el proyecto inicializando inicializando el repositorio de Git:
+$ git init
+
+Inicializar el proyecto:
+$ npm init
+
+Al final de proceso nos mostrará un resumen del 'package.json'
+que se generará a partir de las instrucciones indicadas en el proceso:
+
+"name": "npm-init" —> Podemos ponerle un nombre sin embargo toma por defecto el de la carpeta.
+"version": "1.0.0" —> Podemos cambiar segun el caso, dependiendo un cambio mayor o uno menor
+"description":"" —> Podemos hacer una breve descripcion del proyecto.
+"entry point": "(index.js)" —> Punto de entrada del proyecto.
+"test command": —> Podemos incluir los comandos para validar nuestro codigo.
+"git repository": —> Podemos incluir el repositorio para mantenerlo en la nube
+"keywords": ["javascript", "angular", "node"] —> Que va a utilizar nuestro proyecto.
+"author": "René Pañeda <renepañeda@gmail.com> —> Persona que crea el proyecto
+"license": "MIT" —> Licencias, la mas utilizada es MIT, permite distribuir nuestro codigo.
+
+
+About to write to C:\Proyectos2023\0008-npm-init\package.json:
+{
+  "name": "0008-npm-init",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "javascript",
+    "angular",
+    "node",
+    "npm"
+  ],
+  "author": "René Pañeda",
+  "license": "MIT"
+}
+Is this OK? (yes)
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+Instalación de dependencias:
+
+$ npm install moment
+added 1 package, and audited 2 packages in 5s
+
+Esto lo que va a realizar es conectarse a este recurso que tiene NPM
+para poder traer estos paquetes y agregarlos dentro de nuestro proyecto
+
+Añadimos otra dependencia con --save-dev 
+que la va a guardar como una dependencia que solamente va a ser utilizada en el entorno de desarrollo.
+
+$ npm install eslint --save-dev
+
+O también así:
+$ npm install eslint -D
+added 97 packages, and audited 99 packages in 27s
+
+Esto se conecta al servicio traer los recursos y los agrega al proyecto
+y con esto también nos muestra cuántos paquetes fueron agregados
+
+Para asegurarnos que el recurso estará disponible en el entorno de producción
+podemos utilizar los siguientes flags:
+
+$ npm install react -S
+$ npm install react --save
+
+Con la instalación de los paquetes se han añadido modificaciones en nuestro fichero 'package.json':
+
+... ... ... ... ... ...
+"dependencies": {
+	"moment": "^2.29.4",
+    "react": "^18.2.0"
+},
+"devDependencies": {
+    "eslint": "^8.37.0"
+}
+
+Nos movemos a la terminar para aprender a instalar paquetes globales
+estos no están ligados directamente a proyectos sino a nuestro sistema operativo 
+con lo cual vamos a poder ejecutar diferentes tareas que sean independientes al proyecto que estemos trabajando
+Por ejemplo:
+
+$ npm install -g cowsay
+
+una vez que se instala no se agrega ni modifica nada en nuestro proyecto
+pero si podemos utilizar ahora el comando: cowsay
+
+$ cowsay javascript
+
+Para ver la lista de los paquetes que tengo instalados podemos ejecutar:
+$ npm list
+
+para ver los paquetes que se han agregado a este proyecto:
+
+$ npm list
+0008-npm-init@1.0.0 C:\Proyectos2023\0008-npm-init
+├── eslint@8.37.0
+├── moment@2.29.4
+└── react@18.2.0
+
+para ver un listado de los paquetes que tengo instalados de forma global:
+
+$ npm list -g
+ C:\Users\RenePañeda\AppData\Roaming\npm
+├── ...
+├── cowsay@1.5.0
+└── npm@9.4.2
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Instalación de dependencias de versiones específicas.
+Posibilidades:
+
+#Instalar una dependencia opcional
+$ npm install package-name -o 
+Se pueden generar conflictos cuando se tienen paquetes que usan la misma dependencia pero en versiones diferentes.
+
+Para evitar esto se puede simular una instalación con: 
+$ npm install package-name —dry-run. 
+Con esto se simula la instalación pero sin agregar ningún paquete, 
+si no hay ningún conflicto se procede a instalar de la manera convencional.
+
+Instalar la versión especifica de un paquete:
+$ npm install package-name@0.15.0 
+
+Si luego se quiere instalar la versión más reciente se usa:
+$ npm install package-name@latest.
+
+Instala solo las dependencias que estén dentro de un package.json
+se utiliza cuando te descargas proyectos de repositorios en los que no se suben:
+$ npm install
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Comandos NPM (Scrits)
+
+Sobre nuestro proyecto, creamos una carpeta: src
+$ mkdir src
+
+Y añadimos un nuevo fichero: index.js
+Y le añadimos por ejemplo:
+console.log('Hola mundo!');
+
+En nuestro 'package.json' tenemos la sección de 'scripts', actualmente con:
+
+... ... ... ... ... ...
+"scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1"
+},
+
+Para nuestro ejemplo crearíamos un nuevo script para ejecutar el código
+de ejemplo de nuestra aplicación:
+... ... ... ... ... ...
+"scripts": {
+	"start": "node src/index.js"
+},
+
+Y ahora nos movemos a la terminal, exáctamente en la carpeta de nuestro proyecto
+y ejecutamos el script que hemos creado en el paso anterior:
+
+$ npm run start
+
+> 0008-npm-init@1.0.0 start
+> node src/index.js
+
+Hola mundo!
+
+También podemos hacer uso de los alias que trae node por defecto
+y esto también nos funcionaría igual que la ejecución anterior:
+
+$ npm start
+
+Podemos añadir nuevos scripts al 'package.json'
+y dentro de la ejcución concatenar tareas utilizando '&&'
+Por ejemplo:
+
+... ... ... ... ... ...
+"scripts": {
+	"start": "node src/index.js",
+	"node": "node src/index.js && node src/index.js"
+},
+
+Si ahora ejecutamos:
+
+$ npm run node
+
+se ejecutará dos veces el mismo script
+y el segundo se ejecutará en el momento en el que el primero haya terminado.
+Y si falla la ejcución del primero no se ejcutará el segundo.
+
+$ npm run node
+
+> 0008-npm-init@1.0.0 node
+> node src/index.js && node src/index.js
+
+Hola mundo!
+Hola mundo!
+
+Ahora vemos también que:
+
++ NPM (M=Management)
++ NPX (X=Execute)
+
+Vamos a entender un comando más interesante que es npx.
+npx de las siglas node package execute nos va a permitir a nosotros ejecutar acciones particulares
+sin tener que pasar por la instalación dentro de nuestro PC
+
+Comandos con NPX
+Node Package Execute, nos permite ejecutar acciones particulares sin instalarlos. 
+Lo ejecutamos y realizamos una tarea en particular. 
+Ejemplo:
+
+npx create-react-app my-app
+
+
+Para continuar con el curso, nos salimos de la carpeta de nuestro proyecto que abandonamos.
+
+
+***************************************************************************************
+Nota: Para subirlo a GitHub, creo el proyecto en GitHub
++Copio la ruta del proyecto y añado el remoto:
+$ git remote add remote-0008-npm-init https://github.com/RenegadeAsturias/0008-npm-init.git
+***************************************************************************************
+
+Ahora ejecutamos desde la consola el código de ejemplo de npx
+para crear una aplicación React base.
+Cuando termine la ejecución nos sugiere seguir unas instrucciones
+para inicializar la aplicación:
+
+$ npx create-react-app 0009-react-npm
+$ cd 0009-react-npm
+$ npm start
+
+$ git remote add remote-0009-react-npm https://github.com/RenegadeAsturias/0009-react-npm.git
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Actualización de dependencias
+
+Partimos de un proyecto de otro desarrollador ya existente que está subido en GitHub
+Proyecto: GitHub - gndx/react-base: Minimal project in React + Babel + Webpack
+copiamos la ruta y desde la consola lo clonamos:
+$ git clone https://github.com/gndx/react-base 0010-react-base
+
+Ahora para descargarnos todas las dependencias de este proyecto ejecutamos:
+$ npm install
+
+En el resumen muestra:
+23 vulnerabilities (2 low, 1 moderate, 16 high, 4 critical)
+
+Pra visualizar las dependencias de nuestro proyecto, ejecutamos:
+$ mpm list 
+
+Para visualizar las dependencias que tienen mejoras, ejecutamos:
+$ npm outdate
+
+Package                          Current  Wanted  Latest  Location                                      Depended by
+... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... 
+react                             17.0.2  17.0.2  18.2.0  node_modules/react                            0010-react-base
+react-dom                         17.0.2  17.0.2  18.2.0  node_modules/react-dom                        0010-react-base
+
+
+Como vimos anteriormente, para actualizar una librería a la versión más reciente, ejecutamos:
+$ npm install react@latest
+
+npm WARN Could not resolve dependency:
+npm WARN peer react@"17.0.2" from react-dom@17.0.2
+npm WARN node_modules/react-dom
+npm WARN 	react-dom@"17.0.2" from the root project
+
+Ahora vamos a tener mensajes de error
+esto significa que es muy probable que haya otras dependencias que también requieren
+ser actualizadas antes de actualizar ésta porque están teniendo un conflicto con las dependencias 
+que se requieren a sí misma y esto es algo muy común que vamos a poder ver aquí
+como también podemos ver que react-dom debe ser actualizada a esta misma versión
+en este caso comparten el mismo versionado
+
+Para solucionarlo, de momento, ejecutamos:
+$ npm install react-dom@latest
+
+Se solucionó el problema, pero aún no hemos resuelto las vulnerabilidades:
+changed 2 packages, and audited 992 packages in 12s
+
+23 vulnerabilities (2 low, 1 moderate, 16 high, 4 critical)
+
+Ahora veremos como arreglar este problema y como instalar las dependencia a día de hoy
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Seguridad y solución de problemas
+
+Para ver con más detalle los problemas que tenemos que solucionar podemos ejecutar:
+
+$ npm audit
+
+Por ejemplo para uno de los casos 'critical' que tenemos esta sería la descripción:
+
+url-parse  <=1.5.8
+Severity: critical
+Incorrect hostname / protocol due to unstripped leading control characters. - https://github.com/advisories/GHSA-jf5r-8hm2-f872
+Incorrect returned href via an '@' sign but no user info and hostname - https://github.com/advisories/GHSA-8v38-pw62-9cw2
+Authorization bypass in url-parse - https://github.com/advisories/GHSA-rqff-837h-mm52
+Authorization Bypass Through User-Controlled Key in url-parse - https://github.com/advisories/GHSA-hgjh-723h-mx2j
+fix available via `npm audit fix`
+node_modules/url-parse
+
+
+Para ver con más detalle aún la descripción de los problemas
+Y nos devolverá la información en formato JSON podemos ejecutar:
+
+$ npm audit --json
+
+Vamos a ejecutar la sugerencia de la ejecución anterior:
+
+$ npm audit fix
+
+Con la ejecución se han arreglado parte de los problemas de seguridad:
+> 7 vulnerabilities (1 low, 6 high)
+
+To address all issues, run:
+  npm audit fix --force
+
+Y ahora vamos a ejecutar la sugerencia de la ejecución anterior:
+
+$ npm audit fix --force
+
+Con la ejecución se han arreglado más problemas de seguridad:
+> 5 vulnerabilities (1 low, 4 high)
+
+Vemos que principalmente los errores vienen de la librería webpack
+primero listamos las librerías instaladas con:
+
+$ npm list
+
+├── webpack-cli@4.7.2
+├── webpack-dev-server@3.11.3
+└── webpack@5.77.0
+
+Vamos intentar actualizar esta librería a la última versión:
+
+$ npm install webpack@latest
+$ npm install webpack-cli@latest
+$ npm install webpack-dev-server@latest
+
+Parece que con esto se solucionaron todos los problemas:
+
+> found 0 vulnerabilities
+
+Y ahora repasamos de nuevo las librerías instaladas:
+
+$ npm list
+
+├── webpack-cli@5.0.1
+├── webpack-dev-server@4.13.2
+└── webpack@5.77.0
+
+Si ejecutamos de nuevo la auditoría confirmamos que todo quedó solucionado:
+
+$ npm audit
+> found 0 vulnerabilities
+
+
+npm audit --> Audita las dependencias que tenemos instaladas en busca de vulnerabilidades.
+npm audit fix --> Audita e intenta arreglar las vulnerabilidades de nuestras dependencias.
+npm audit --json --> Muestra los resultados de la auditoría de manera más profunda en formato json.
+npm audit fix --force --> Corrige los problemas encontrados en las librerías instalando otras dependencias por debajo si es necesario.
+
+
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Eliminación de dependencias y Package lock
+
+Para desistalar una dependencia previamente instalada ejecutamos:
+
+$ npm uninstall webpack-dev-server
+
+removed 164 packages, and audited 626 packages in 13s
+100 packages are looking for funding
+  run `npm fund` for details
+found 0 vulnerabilities
+
+
+Otra forma disponible también es borrar en el listado de dependencias
+de nuestro fichero 'package.json'
+Y una vez borrada ejeucutamos lo siguiente:
+
+$ rm -rf node_modules -> Para borrar todas las librerías instaladas
+$ npm install -> Para instalar de nuevo todas las dependencias que necesitamos 
+
+
+Para compilar nuestro proyecto, debemos ejeuctar:
+
+$ npm run build -> Nos mostrará el resultado de la compilación
+$ npm run build --dd -> Nos mostrará el resultado de la compilación en modo verbose
+
+
+Otro comando interesante que podemos ejecutar para ver librerías deprecadas
+y la información de auditoría es:
+
+$ npm ci
+
+npm WARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+npm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+npm WARN deprecated babel-eslint@10.1.0: babel-eslint is now @babel/eslint-parser. This package will no longer receive updates.
+
+added 625 packages, and audited 626 packages in 2m
+
+100 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+
+El fichero 'package.lock'
+
+Se creará cuando instalemos algún paquete o con la instalación de nuestras dependencias
+y lo único que va a contener es la historia completa de todos los dependencias
+y las ramas de la misma que dependan así mismo y de esta forma podrás tener todo muy bien organizado.
+
+
